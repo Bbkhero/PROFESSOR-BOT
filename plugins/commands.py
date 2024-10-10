@@ -17,9 +17,9 @@ BATCH_FILES = {}
 async def start(client, message):
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         buttons = [[           
-            InlineKeyboardButton('📢 Uᴩᴅᴀᴛᴇꜱ 📢', url=f'https://t.me/{SUPPORT_CHAT}')
+            InlineKeyboardButton('Support', url=f'https://t.me/{SUPPORT_CHAT}')
             ],[
-            InlineKeyboardButton('ℹ️ Hᴇʟᴩ ℹ️', url=f"https://t.me/{temp.U_NAME}?start=help")
+            InlineKeyboardButton('Help', url=f"https://t.me/{temp.U_NAME}?start=help")
         ]]
         await message.reply(START_MESSAGE.format(user=message.from_user.mention if message.from_user else message.chat.title, bot=client.mention), reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)                    
         await asyncio.sleep(2) 
@@ -33,13 +33,13 @@ async def start(client, message):
         await client.send_message(LOG_CHANNEL, script.LOG_TEXT_P.format(message.from_user.id, message.from_user.mention, message.from_user.username, temp.U_NAME))
     if len(message.command) != 2:
         buttons = [[
-            InlineKeyboardButton("➕️ Aᴅᴅ Mᴇ Tᴏ Yᴏᴜʀ Cʜᴀᴛ ➕", url=f"http://t.me/{temp.U_NAME}?startgroup=true")
+            InlineKeyboardButton("Add Me To You Chat", url=f"http://t.me/{temp.U_NAME}?startgroup=true")
             ],[
-            InlineKeyboardButton("Sᴇᴀʀᴄʜ 🔎", switch_inline_query_current_chat=''), 
-            InlineKeyboardButton("Cʜᴀɴɴᴇʟ 🔈", url="https://t.me/mkn_bots_updates")
+            InlineKeyboardButton("Search", switch_inline_query_current_chat=''), 
+            InlineKeyboardButton("Channel", url="https://t.me/mkn_bots_updates")
             ],[      
-            InlineKeyboardButton("Hᴇʟᴩ 🕸️", callback_data="help"),
-            InlineKeyboardButton("Aʙᴏᴜᴛ ✨", callback_data="about")
+            InlineKeyboardButton("Help", callback_data="help"),
+            InlineKeyboardButton("About ✨", callback_data="about")
         ]]
         m = await message.reply_sticker("CAACAgUAAxkBAAEBvlVk7YKnYxIHVnKW2PUwoibIR2ygGAACBAADwSQxMYnlHW4Ls8gQHgQ") 
         await asyncio.sleep(2)
@@ -52,14 +52,14 @@ async def start(client, message):
         except ChatAdminRequired:
             logger.error("MAKE SURE BOT IS ADMIN IN FORCESUB CHANNEL")
             return
-        btn = [[InlineKeyboardButton("Jᴏɪɴ Mʏ Cʜᴀɴɴᴇʟ ✨", url=invite_link.invite_link)]]
+        btn = [[InlineKeyboardButton("Join My Channel", url=invite_link.invite_link)]]
         if message.command[1] != "subscribe":
             try:
                 kk, file_id = message.command[1].split("_", 1)
                 pre = 'checksubp' if kk == 'filep' else 'checksub' 
-                btn.append([InlineKeyboardButton("⟳ Tʀʏ Aɢᴀɪɴ", callback_data=f"{pre}#{file_id}")])
+                btn.append([InlineKeyboardButton("Try Again", callback_data=f"{pre}#{file_id}")])
             except (IndexError, ValueError):
-                btn.append([InlineKeyboardButton("⟳ Tʀʏ Aɢᴀɪɴ", url=f"https://t.me/{temp.U_NAME}?start={message.command[1]}")])
+                btn.append([InlineKeyboardButton("Try Again", url=f"https://t.me/{temp.U_NAME}?start={message.command[1]}")])
                 
         try:
             return await client.send_message(chat_id=message.from_user.id, text=FORCE_SUB_TEXT, reply_markup=InlineKeyboardMarkup(btn), parse_mode=enums.ParseMode.DEFAULT)
@@ -69,13 +69,13 @@ async def start(client, message):
         
     if len(message.command) == 2 and message.command[1] in ["subscribe", "error", "okay", "help"]:
         buttons = [[
-            InlineKeyboardButton("➕️ Aᴅᴅ Mᴇ Tᴏ Yᴏᴜʀ Cʜᴀᴛ ➕", url=f"http://t.me/{temp.U_NAME}?startgroup=true")
+            InlineKeyboardButton("Add Me To Your Chat", url=f"http://t.me/{temp.U_NAME}?startgroup=true")
             ],[
-            InlineKeyboardButton("Sᴇᴀʀᴄʜ 🔎", switch_inline_query_current_chat=''), 
-            InlineKeyboardButton("Cʜᴀɴɴᴇʟ 🔈", url="https://t.me/mkn_bots_updates")
+            InlineKeyboardButton("Search", switch_inline_query_current_chat=''), 
+            InlineKeyboardButton("Channel", url="https://t.me/mkn_bots_updates")
             ],[      
-            InlineKeyboardButton("Hᴇʟᴩ 🕸️", callback_data="help"),
-            InlineKeyboardButton("Aʙᴏᴜᴛ ✨", callback_data="about")
+            InlineKeyboardButton("Help", callback_data="help"),
+            InlineKeyboardButton("About", callback_data="about")
         ]]
         m = await message.reply_sticker("CAACAgUAAxkBAAEBvlVk7YKnYxIHVnKW2PUwoibIR2ygGAACBAADwSQxMYnlHW4Ls8gQHgQ")
         await asyncio.sleep(2)
@@ -302,20 +302,20 @@ async def settings(client, message):
     settings = await get_settings(grp_id)
     if settings is not None:
         buttons = [[
-            InlineKeyboardButton(f"ꜰɪʟᴛᴇʀ ʙᴜᴛᴛᴏɴ : {'sɪɴɢʟᴇ' if settings['button'] else 'ᴅᴏᴜʙʟᴇ'}", f'setgs#button#{settings["button"]}#{str(grp_id)}')
+            InlineKeyboardButton(f"Filter Button : {'Single' if settings['button'] else 'Double'}", f'setgs#button#{settings["button"]}#{str(grp_id)}')
             ],[
-            InlineKeyboardButton(f"ꜰɪʟᴇ ɪɴ ᴩᴍ ꜱᴛᴀʀᴛ: {'ᴏɴ' if settings['botpm'] else 'ᴏꜰꜰ'}", f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}')
+            InlineKeyboardButton(f"File In Pm Start: {'On' if settings['botpm'] else 'Off'}", f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}')
             ],[                
-            InlineKeyboardButton(f"ʀᴇꜱᴛʀɪᴄᴛ ᴄᴏɴᴛᴇɴᴛ : {'ᴏɴ' if settings['file_secure'] else 'ᴏꜰꜰ'}", f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}')
+            InlineKeyboardButton(f"Distracted Content: {'On' if settings['file_secure'] else 'Off'}", f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}')
             ],[
-            InlineKeyboardButton(f"ɪᴍᴅʙ ɪɴ ꜰɪʟᴛᴇʀ : {'ᴏɴ' if settings['imdb'] else 'ᴏꜰꜰ'}", f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}')
+            InlineKeyboardButton(f"Imdb In Filter : {'On' if settings['imdb'] else 'Off'}", f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}')
             ],[
-            InlineKeyboardButton(f"ꜱᴩᴇʟʟɪɴɢ ᴄʜᴇᴄᴋ : {'ᴏɴ' if settings['spell_check'] else 'ᴏꜰꜰ'}", f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}')
+            InlineKeyboardButton(f"Spelling Check: {'On' if settings['spell_check'] else 'Off'}", f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}')
             ],[
-            InlineKeyboardButton(f"ᴡᴇʟᴄᴏᴍᴇ ᴍᴇꜱꜱᴀɢᴇ : {'ᴏɴ' if settings['welcome'] else 'ᴏꜰꜰ'}", f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')
+            InlineKeyboardButton(f"Welcome Message: {'On' if settings['welcome'] else 'Off'}", f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')
         ]]
         await message.reply_text(
-            text=f"<b>Cʜᴀɴɢᴇ Yᴏᴜʀ Sᴇᴛᴛɪɴɢꜱ Fᴏʀ {title} Aꜱ Yᴏᴜʀ Wɪꜱʜ ⚙</b>",
+            text=f"<b>Change Your Setting For{title} As Your Wish</b>",
             reply_markup=InlineKeyboardMarkup(buttons),
             quote=True, 
             disable_web_page_preview=True,
@@ -326,9 +326,9 @@ async def settings(client, message):
 
 @Client.on_message(filters.command('set_template'))
 async def save_template(client, message):
-    sts = await message.reply("Cʜᴇᴄᴋɪɴɢ Tᴇᴍᴘʟᴀᴛᴇ")
+    sts = await message.reply("Checking  Template")
     userid = message.from_user.id if message.from_user else None
-    if not userid: return await message.reply(f"Yᴏᴜ Aʀᴇ Aɴᴏɴʏᴍᴏᴜs Aᴅᴍɪɴ. Usᴇ /connect {message.chat.id} Iɴ PM")
+    if not userid: return await message.reply(f"You Are Anonymous Admin. Use /connect {message.chat.id} In PM")
     chat_type = message.chat.type
     if chat_type == enums.ChatType.PRIVATE:
         grpid = await active_connection(str(userid))
@@ -338,9 +338,9 @@ async def save_template(client, message):
                 chat = await client.get_chat(grpid)
                 title = chat.title
             except:
-                return await message.reply_text("Mᴀᴋᴇ Sᴜʀᴇ I'ᴍ Pʀᴇsᴇɴᴛ Iɴ Yᴏᴜʀ Gʀᴏᴜᴘ !!", quote=True)
+                return await message.reply_text("Make Sure Im Present In Your Group!!", quote=True)
         else:
-            return await message.reply_text("I'ᴍ Nᴏᴛ Cᴏɴɴᴇᴄᴛᴇᴅ Tᴏ Aɴʏ Gʀᴏᴜᴘs!", quote=True)
+            return await message.reply_text("Im Not Connected To Amy Group!", quote=True)
     elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         grp_id = message.chat.id
         title = message.chat.title
@@ -354,14 +354,14 @@ async def save_template(client, message):
     if len(message.command) < 2: return await sts.edit("No Iɴᴩᴜᴛ!!")
     template = message.text.split(" ", 1)[1]
     await save_group_settings(grp_id, 'template', template)
-    await sts.edit(f"Sᴜᴄᴄᴇssғᴜʟʟʏ Cʜᴀɴɢᴇᴅ Tᴇᴍᴘʟᴀᴛᴇ Fᴏʀ {title} Tᴏ\n\n{template}")
+    await sts.edit(f"Successfully Changed Template {title} Tᴏ\n\n{template}")
 
 
 @Client.on_message(filters.command('get_template'))
 async def geg_template(client, message):
-    sts = await message.reply("Cʜᴇᴄᴋɪɴɢ Tᴇᴍᴘʟᴀᴛᴇ")
+    sts = await message.reply("Checking Template")
     userid = message.from_user.id if message.from_user else None
-    if not userid: return await message.reply(f"Yᴏᴜ Aʀᴇ Aɴᴏɴʏᴍᴏᴜs Aᴅᴍɪɴ. Usᴇ /connect {message.chat.id} Iɴ PM")
+    if not userid: return await message.reply(f"You Are Anonymous Admin. Use /connect {message.chat.id} In PM")
     chat_type = message.chat.type
     if chat_type == enums.ChatType.PRIVATE:
         grpid = await active_connection(str(userid))
@@ -371,9 +371,9 @@ async def geg_template(client, message):
                 chat = await client.get_chat(grpid)
                 title = chat.title
             except:
-                return await message.reply_text("Mᴀᴋᴇ Sᴜʀᴇ I'ᴍ Pʀᴇsᴇɴᴛ Iɴ Yᴏᴜʀ Gʀᴏᴜᴘ !!", quote=True)
+                return await message.reply_text("Make Sure Im Present In Your Group!!", quote=True)
         else:
-            return await message.reply_text("I'ᴍ Nᴏᴛ Cᴏɴɴᴇᴄᴛᴇᴅ Tᴏ Aɴʏ Gʀᴏᴜᴘs!", quote=True)
+            return await message.reply_text("I'm Not Connected To Any Groups!", quote=True)
     elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         grp_id = message.chat.id
         title = message.chat.title
@@ -386,7 +386,7 @@ async def geg_template(client, message):
     ): return
     settings = await get_settings(grp_id)
     template = settings['template']
-    await sts.edit(f"Cᴜʀʀᴇɴᴛ Tᴇᴍᴘʟᴀᴛᴇ Fᴏʀ {title} Iꜱ\n\n{template}")
+    await sts.edit(f"Current Template For{title} Is\n\n{template}")
 
 
 

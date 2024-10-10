@@ -25,14 +25,14 @@ async def savegroup_and_welcome(bot, message):
             await bot.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(a=message.chat.title, b=message.chat.id, c=message.chat.username, d=total, e=r_j, f=bot.mention))       
             await db.add_chat(message.chat.id, message.chat.title, message.chat.username)
         if message.chat.id in temp.BANNED_CHATS:
-            buttons = [[InlineKeyboardButton('Sᴜᴩᴩᴏʀᴛ', url=f'https://t.me/{SUPPORT_CHAT}')]]
-            k = await message.reply("CHAT NOT ALLOWED 🐞\n\nMʏ Aᴅᴍɪɴs Hᴀs Rᴇsᴛʀɪᴄᴛᴇᴅ Mᴇ Fʀᴏᴍ Wᴏʀᴋɪɴɢ Hᴇʀᴇ ! Iғ Yᴏᴜ Wᴀɴᴛ Tᴏ Kɴᴏᴡ Mᴏʀᴇ Aʙᴏᴜᴛ Iᴛ Cᴏɴᴛᴀᴄᴛ Sᴜᴘᴘᴏʀᴛ", reply_markup=InlineKeyboardMarkup(buttons))
+            buttons = [[InlineKeyboardButton('Support', url=f'https://t.me/{SUPPORT_CHAT}')]]
+            k = await message.reply("CHAT NOT ALLOWED \n\nMy Admin Has Restricted Me From Working Here ! If You Want To Know More About It Contact Support", reply_markup=InlineKeyboardMarkup(buttons))
             try: await k.pin()
             except: pass
             return await bot.leave_chat(message.chat.id)
            
-        buttons = [[InlineKeyboardButton('Hᴇʟᴩ', url=f"https://t.me/{temp.U_NAME}?start=help")]]
-        await message.reply(text="❤️ Tʜᴀɴᴋs Tᴏ Aᴅᴅ Mᴇ Tᴏ Yᴏᴜ'ʀ Gʀᴏᴜᴘ.\n» Dᴏɴ'ᴛ Fᴏʀɢᴇᴛ Tᴏ Mᴀᴋᴇ Mᴇ Aᴅᴍɪɴ.\n» Is Aɴʏ Dᴏᴜʙᴛ's Aʙᴏᴜᴛ Usɪɴɢ Mᴇ Cʟɪᴄᴋ Bᴇʟᴏᴡ Bᴜᴛᴛᴏɴ...✨", reply_markup=InlineKeyboardMarkup(buttons))
+        buttons = [[InlineKeyboardButton('Help', url=f"https://t.me/{temp.U_NAME}?start=help")]]
+        await message.reply(text="Thanks To Add Me To Your Group.\n» Don't Forget To Make Me Admin.\n» Is Any Doubt About Using Me Click Below Button...", reply_markup=InlineKeyboardMarkup(buttons))
     else:
         for u in message.new_chat_members:
             if (temp.MELCOW).get('welcome') is not None:
@@ -49,15 +49,15 @@ async def leave_a_chat(bot, message):
     try: chat = int(chat)
     except: chat = chat
     try:
-        buttons = [[InlineKeyboardButton('Sᴜᴩᴩᴏʀᴛ', url=f'https://t.me/{SUPPORT_CHAT}')]]
-        await bot.send_message(chat_id=chat, text='<b>Hᴇʟʟᴏ Fʀɪᴇɴᴅs, \nMʏ Aᴅᴍɪɴ Hᴀs Tᴏʟᴅ Mᴇ Tᴏ Lᴇᴀᴠᴇ Fʀᴏᴍ Gʀᴏᴜᴘ Sᴏ I Gᴏ! Iғ Yᴏᴜ Wᴀɴɴᴀ Aᴅᴅ Mᴇ Aɢᴀɪɴ Cᴏɴᴛᴀᴄᴛ Mʏ Sᴜᴘᴘᴏʀᴛ Gʀᴏᴜᴘ</b>', reply_markup=InlineKeyboardMarkup(buttons))
+        buttons = [[InlineKeyboardButton('Support', url=f'https://t.me/{SUPPORT_CHAT}')]]
+        await bot.send_message(chat_id=chat, text='<b>Hello Friends, \nMy Admin Has Told Me To  Leave From Group So I Go! If You Wanna Add Me Again Contact My Support Group</b>', reply_markup=InlineKeyboardMarkup(buttons))
         await bot.leave_chat(chat)
     except Exception as e:
         await message.reply(f'Eʀʀᴏʀ: {e}')
 
 @Client.on_message(filters.command('disable') & filters.user(ADMINS))
 async def disable_chat(bot, message):
-    if len(message.command) == 1: return await message.reply('Gɪᴠᴇ Mᴇ A Cʜᴀᴛ Iᴅ')
+    if len(message.command) == 1: return await message.reply('Give Me A Chat Id')
     r = message.text.split(None)
     if len(r) > 2:
         reason = message.text.split(None, 2)[2]
@@ -68,41 +68,41 @@ async def disable_chat(bot, message):
     try:
         chat_ = int(chat)
     except:
-        return await message.reply('Gɪᴠᴇ Mᴇ A Vᴀʟɪᴅ Cʜᴀᴛ ID')
+        return await message.reply('Give Me A Valid Chat ID')
     cha_t = await db.get_chat(int(chat_))
     if not cha_t:
-        return await message.reply("Cʜᴀᴛ Nᴏᴛ Fᴏᴜɴᴅ Iɴ DB")
+        return await message.reply("Chat Not Found In DB")
     if cha_t['is_disabled']:
-        return await message.reply(f"Tʜɪꜱ Cʜᴀᴛ Is Aʟʀᴇᴅʏ  Dɪꜱᴀʙʟᴇᴅ:\nRᴇᴀꜱᴏɴ: <code> {cha_t['reason']} </code>")
+        return await message.reply(f"This  Chat Is Already  Desabld:\nReason: <code> {cha_t['reason']} </code>")
     await db.disable_chat(int(chat_), reason)
     temp.BANNED_CHATS.append(int(chat_))
-    await message.reply('Cʜᴀᴛ Sᴜᴄᴄᴇꜱꜰᴜʟʟʏ Dɪꜱᴀʙʟᴇᴅ')
+    await message.reply('Chat Successfully Disabled')
     try:
-        buttons = [[InlineKeyboardButton('Sᴜᴩᴩᴏʀᴛ', url=f'https://t.me/{SUPPORT_CHAT}')]]
-        await bot.send_message(chat_id=chat_,  text=f'<b>Hᴇʟʟᴏ Fʀɪᴇɴᴅs, \nᴍʏ Aᴅᴍɪɴ Hᴀs Tᴏʟᴅ Mᴇ Tᴏ Lᴇᴀᴠᴇ Fʀᴏᴍ Gʀᴏᴜᴘ Sᴏ I Gᴏ! Iғ Yᴏᴜ Wᴀɴɴᴀ Aᴅᴅ Mᴇ Aɢᴀɪɴ Cᴏɴᴛᴀᴄᴛ Mʏ Sᴜᴘᴘᴏʀᴛ Gʀᴏᴜᴘ.</b> \nRᴇᴀꜱᴏɴ : <code>{reason}</code>', reply_markup=InlineKeyboardMarkup(buttons))
+        buttons = [[InlineKeyboardButton('Support', url=f'https://t.me/{SUPPORT_CHAT}')]]
+        await bot.send_message(chat_id=chat_,  text=f'<b>Hello Friends, \nMy Admin Has Told Me To Leave From Group So I Go! If You Wanna Add Me Again So Contact Support: <code>{reason}</code>', reply_markup=InlineKeyboardMarkup(buttons))
         await bot.leave_chat(chat_)
     except Exception as e:
-        await message.reply(f"Eʀʀᴏʀ: {e}")
+        await message.reply(f"Error: {e}")
 
 
 @Client.on_message(filters.command('enable') & filters.user(ADMINS))
 async def re_enable_chat(bot, message):
-    if len(message.command) == 1: return await message.reply('Gɪᴠᴇ Mᴇ A Cʜᴀᴛ Iᴅ')
+    if len(message.command) == 1: return await message.reply('Give Me A Chat Iᴅld')
     chat = message.command[1]
     try: chat_ = int(chat)
-    except: return await message.reply('Gɪᴠᴇ Mᴇ A Vᴀʟɪᴅ Cʜᴀᴛ ID')
+    except: return await message.reply('Give Me A Vlid Chat ID')
     sts = await db.get_chat(int(chat))
-    if not sts: return await message.reply("Cʜᴀᴛ Nᴏᴛ Fᴏᴜɴᴅ Iɴ DB")
+    if not sts: return await message.reply("Chat Not Found In DB")
     if not sts.get('is_disabled'):
-        return await message.reply('Tʜɪꜱ Cʜᴀᴛ Iꜱ Nᴏᴛ Yᴇᴛ Dɪꜱᴀʙʟᴇᴅ')
+        return await message.reply('This Chat Is Not Yet Disabled')
     await db.re_enable_chat(int(chat_))
     temp.BANNED_CHATS.remove(int(chat_))
-    await message.reply("Cʜᴀᴛ Sᴜᴄᴄᴇꜱꜰᴜʟʟʏ Rᴇ-Eɴᴀʙʟᴇᴅ")
+    await message.reply("Chat Successfully Re-Enabled")
 
 
 @Client.on_message(filters.command('stats') & filters.incoming)
 async def get_ststs(bot, message):
-    rju = await message.reply('<b>Pʟᴇᴀꜱᴇ Wᴀɪᴛ...</b>')
+    rju = await message.reply('<b>Please Wait...</b>')
     total_users = await db.total_users_count()
     totl_chats = await db.total_chat_count()
     files = await Media.count_documents()
@@ -115,21 +115,21 @@ async def get_ststs(bot, message):
 
 @Client.on_message(filters.command('invite') & filters.user(ADMINS))
 async def gen_invite(bot, message):
-    if len(message.command) == 1: return await message.reply('Gɪᴠᴇ Mᴇ A Cʜᴀᴛ Iᴅ')
+    if len(message.command) == 1: return await message.reply('Gove Me A Chat Id')
     chat = message.command[1]
     try: chat = int(chat)
-    except: return await message.reply('Gɪᴠᴇ Mᴇ A Vᴀʟɪᴅ Cʜᴀᴛ ID')
+    except: return await message.reply('Give Me A Valid Chat ID')
     try:
         link = await bot.create_chat_invite_link(chat)
     except ChatAdminRequired:
-        return await message.reply("Iɴᴠɪᴛᴇ Lɪɴᴋ Gᴇɴᴇʀᴀᴛɪᴏɴ Fᴀɪʟᴇᴅ, Iᴀᴍ Nᴏᴛ Hᴀᴠɪɴɢ Sᴜғғɪᴄɪᴇɴᴛ Rɪɢʜᴛs")
+        return await message.reply("Invite Link Generation Filed,Im Not Having Sufficient Rights")
     except Exception as e:
-        return await message.reply(f'Eʀʀᴏʀ: {e}')
-    await message.reply(f'Hᴇʀᴇ Iꜱ Yᴏᴜʀ Iɴᴠɪᴛᴇ Lɪɴᴋ: {link.invite_link}')
+        return await message.reply(f'Error: {e}')
+    await message.reply(f'Here Is Your Link: {link.invite_link}')
 
 @Client.on_message(filters.command('ban_user') & filters.user(ADMINS))
 async def ban_a_user(bot, message):
-    if len(message.command) == 1: return await message.reply('Gɪᴠᴇ Mᴇ A Uꜱᴇʀ Iᴅ / Uꜱᴇʀɴᴀᴍᴇ')
+    if len(message.command) == 1: return await message.reply('Give Me A User Id / Uꜱᴇʀɴᴀᴍᴇ')
     r = message.text.split(None)
     if len(r) > 2:
         reason = message.text.split(None, 2)[2]
@@ -350,7 +350,7 @@ async def imdb_callback(bot: Client, quer_y: CallbackQuery):
             **locals()
         )
     else:
-        caption = "ɴᴏ ʀᴇꜱᴜʟᴛꜱ"
+        caption = "No Result"
     if imdb.get('poster'):
         try:
             await quer_y.message.reply_photo(photo=imdb['poster'], caption=caption, reply_markup=InlineKeyboardMarkup(btn))
